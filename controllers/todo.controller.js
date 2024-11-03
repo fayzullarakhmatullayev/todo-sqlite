@@ -3,7 +3,7 @@ import { todoSchema } from '../validations/todo.validate.js';
 
 export const getAllTodos = async (req, res) => {
   try {
-    const todos = await Todo.findAll();
+    const todos = await Todo.findAll({ order: [['createdAt', 'DESC']] });
     res.status(200).json(todos);
   } catch (error) {
     res.status(500).json({ message: error.message });
