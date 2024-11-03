@@ -103,31 +103,31 @@ const getAllTodos = async () => {
 
 const submitHandler = async () => {
   if (!formState.value.title) return
-
+  loading.value = true
+  isModalVisible.value = false
   try {
     if (isUpdate.value) {
-      const { data } = await axios.put(
-        `/api/todos/${updateId.value}`,
-        formState.value,
-      )
+      await axios.put(`/api/todos/${updateId.value}`, formState.value)
     } else {
-      const { data } = await axios.post('/api/todos', formState.value)
+      await axios.post('/api/todos', formState.value)
     }
   } catch (error) {
     console.error(error)
   } finally {
-    isModalVisible.value = false
     getAllTodos()
+    loading.value = false
   }
 }
 
 const deleteHandler = async id => {
+  loading.value = true
   try {
     await axios.delete(`/api/todos/${id}`)
   } catch (error) {
     console.error(error)
   } finally {
     getAllTodos()
+    loading.value = false
   }
 }
 
