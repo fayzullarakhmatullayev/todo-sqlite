@@ -114,7 +114,7 @@ const submitHandler = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    getAllTodos()
+    await getAllTodos()
     loading.value = false
   }
 }
@@ -126,18 +126,20 @@ const deleteHandler = async id => {
   } catch (error) {
     console.error(error)
   } finally {
-    getAllTodos()
+    await getAllTodos()
     loading.value = false
   }
 }
 
 const completeTodo = async todo => {
+  loading.value = true
   try {
     await axios.put(`/api/todos/${todo.id}`, { completed: !todo.completed })
   } catch (error) {
     console.error(error)
   } finally {
-    getAllTodos()
+    await getAllTodos()
+    loading.value = false
   }
 }
 
